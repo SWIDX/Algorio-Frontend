@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Searchbar from './Searchbar.js';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -83,6 +84,7 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
+          
           <Typography
             variant="h6"
             noWrap
@@ -91,6 +93,7 @@ const ResponsiveAppBar = () => {
           >
             Algorio
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -103,10 +106,14 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
+          <Box sx={{ mr: '20px' }}>
+              <Searchbar />
+          </Box>
+          
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="https://avatars.githubusercontent.com/u/101041739?s=200&v=4" />
               </IconButton>
             </Tooltip>
             <Menu
