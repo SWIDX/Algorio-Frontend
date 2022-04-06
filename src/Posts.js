@@ -35,7 +35,7 @@ const posts = [
    
     {
      title: "움짤도 돌아감",
-     excerpt: "내용 적으면 짧아지는 것도 수정해라",
+     excerpt: "내용 적으면 짧아지는거 수정함",
      image: "https://i.ppy.sh/398be0030d0ac56e953db93ce3884db1c5974a9f/68747470733a2f2f692e696d6775722e636f6d2f746d76517546742e676966"
     },
    
@@ -52,7 +52,7 @@ export default function Posts(props) {
       <Grid container spacing={6} justifyContent="center">
         {posts.map(post => (
           <Grid item key={post.title}>
-            <Card>
+            <Card sx={{ width: 380, maxHeight: 300}}>
               <CardActionArea>
                 <CardMedia
                   component="img"
