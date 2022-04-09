@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Chip, Grid, Rating, Stack, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -9,7 +10,7 @@ import { Box } from "@mui/system";
 
 import logo from './logo.svg'
 
-const posts = [
+const test_posts = [
 
     {
      title: "한글도 되나요",
@@ -61,6 +62,20 @@ const posts = [
 ]
 
 export default function Posts(props) {
+  const [posts, setState] = useState([]);
+  useEffect(() => {
+    async function getMeta() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/v1/posts/all');
+        setState(response.data)
+        
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    getMeta();
+  }, [])
+
   const tagClick = () => {
     alert("아직 작동은 안한단다");
   };
@@ -76,14 +91,14 @@ export default function Posts(props) {
                   component="img"
                   alt="Sakura Nene"
                   height="140"
-                  image={post.image}
+                  image={post.image ? post.image : "https://avatars.githubusercontent.com/u/77003554?v=4"}
                   title="Sakura Nene"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
                     {post.title}
                   </Typography>
-                  <Typography component="p">{post.excerpt}</Typography>
+                  <Typography component="p">{post.content}</Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions>
@@ -91,7 +106,6 @@ export default function Posts(props) {
                   {post.tags.map(tag => (
                     <Chip label={tag} color="info" size="small" variant="outlined" onClick={tagClick} />
                   ))}
-                  
                 </Stack>
                 <Box sx={{ flexGrow: 0 }}>
                     <Rating name="half-rating-readonly" defaultValue={post.rate} precision={0.5} readOnly />
