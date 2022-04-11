@@ -12,13 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Searchbar from './Searchbar.js';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Login'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  let navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -31,7 +33,11 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event) => {
+    console.log(event.target.textContent);
+    if (event.target.textContent == 'Login') {
+      navigate('/login');
+    }
     setAnchorElUser(null);
   };
 
@@ -113,7 +119,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="https://avatars.githubusercontent.com/u/101041739?s=200&v=4" />
+              <Avatar src="/broken-image.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
