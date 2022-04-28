@@ -12,6 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GoogleLogin } from 'react-google-login';
+import googleLogo from './google-logo.svg';
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+
 
 function Copyright(props) {
   return (
@@ -29,6 +34,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  let navigate = useNavigate()
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,6 +44,24 @@ export default function SignIn() {
       password: data.get('password'),
     });
   };
+
+  // Google Login
+  const responseGoogle = (res) => {
+    console.log(res);
+    (async function postAuthToken() { // redirect to backend
+      try {
+        const response = await axios.post('http://localhost:8080/auth/google', res.tokenObj.id_token);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+    return navigate("/");
+  }
+
+  // Login Fail
+  const responseFail = (err) => {
+    console.error(err);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -89,6 +114,20 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            <Box
+              fullWidth
+              sx={{ mb: 2 }}
+            >
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Sign In with Google"
+                render={renderProps => (
+                  <Button onClick={renderProps.onClick} sx={{ height: 50 }} disabled={renderProps.disabled} fullWidth variant="outlined"><img src={googleLogo} style={{marginRight: 10}} />Sign In with Google</Button>
+                )}
+                onSuccess={responseGoogle}
+                onFailure={responseFail}
+              />
+            </Box>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
