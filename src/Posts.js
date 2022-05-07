@@ -6,10 +6,14 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import Container from '@mui/material/Container';
 import { Box } from "@mui/system";
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
 
-import logo from './logo.svg'
+// import logo from './logo.svg'
 
+/*
 const test_posts = [
 
     {
@@ -60,9 +64,11 @@ const test_posts = [
      rate: 4.5
     }
 ]
+*/
 
 export default function Posts(props) {
   const [posts, setState] = useState([]);
+  
   useEffect(() => {
     async function getMeta() {
       try {
@@ -77,44 +83,60 @@ export default function Posts(props) {
   }, [])
 
   const tagClick = () => {
-    alert("아직 작동은 안한단다");
+    alert("아직 작동 안함");
   };
 
   return (
-    <div style={{ marginTop: 20, padding: 30 }}>
-      <Grid container spacing={6} justifyContent="center">
-        {posts.map(post => (
-          <Grid item key={post.title}>
-            <Card sx={{ width: 380, maxHeight: 300}}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  alt="Sakura Nene"
-                  height="140"
-                  image={post.image ? post.image : "https://avatars.githubusercontent.com/u/77003554?v=4"}
-                  title="Sakura Nene"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {post.title}
-                  </Typography>
-                  <Typography component="p">{post.content}</Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Stack direction="row" spacing={1} sx={{ flexGrow: 1 }}>
-                  {post.tags.map(tag => (
-                    <Chip label={tag} color="info" size="small" variant="outlined" onClick={tagClick} />
-                  ))}
-                </Stack>
-                <Box sx={{ flexGrow: 0 }}>
+    <div style={{ marginTop: 30, marginBottom: 30 }}>
+      <Container maxWidth='xl'>  
+        <Grid container spacing={6} sx={{justifyContent: 'center'}}>
+          {posts.map(post => (
+            <Grid item align='left' component='li' key={post.id} sx={{listStyle: 'none'}}>
+              
+              <Card sx={{ width: 380, height: 350}}>
+                <CardActionArea sx={{ height: 275 }}>
+                  <Link
+                    component={RouterLink}
+                    sx={{color: '#000000', textDecoration: 'none'}}
+                    to={'/view/' + post.id}
+                    state={post.id}
+                  >
+                    
+                    <CardMedia
+                      component="img"
+                      alt="Something posted.."
+                      height='180'
+                      image={post.imageLink ? post.imageLink : "https://images.unsplash.com/photo-1572248525872-ac574b2bf06d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80"}
+                    />
+
+                    <CardContent sx={{height:'100%'}}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {post.title}
+                      </Typography>
+                    </CardContent>
+                  </Link>
+
+                </CardActionArea>
+
+                <CardActions sx={{height: 20}}>
+                  <Stack direction="row" spacing={1}>
+                    {post.tags.map(tag => (
+                      <Chip label={tag} color="info" size="small" variant="outlined" onClick={tagClick} />
+                    ))}
+                  </Stack>
+                </CardActions>
+                <CardActions sx={{height: 20}}>
+                  <Box sx={{flexGrow: 1}}>2022년 05월 26일</Box>
+                  <Box>
                     <Rating name="half-rating-readonly" defaultValue={post.rate} precision={0.5} readOnly />
                   </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                </CardActions>
+
+              </Card>
+            </Grid>
+          ))}
+        </Grid> 
+      </Container>
     </div>
   );
 }
